@@ -1,0 +1,4 @@
+rootProject.name = 'covid-19-service'
+
+include ":covid-19-common"
+project(":covid-19-common").projectDir = file("../covid-19-common")
