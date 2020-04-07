@@ -7,6 +7,7 @@ repositories {
 dependencies {
     // LOG
     implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'org.apache.logging.log4j:log4j-core:2.13.1'
 
     // COMMONS
     implementation 'org.apache.commons:commons-lang3:3.9'
