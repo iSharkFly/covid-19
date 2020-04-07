@@ -1,0 +1,6 @@
+
+== Hibernate Search Setup:
+
+1. Create directory /var/lucene
+2. Create directory /var/lucene/indexes
+3. chown -R {your user} /var/lucene/
