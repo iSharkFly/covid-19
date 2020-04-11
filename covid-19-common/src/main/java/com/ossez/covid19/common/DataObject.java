@@ -10,107 +10,105 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * DataObject
  *
+ * @author YuCheng Hu
  */
 @MappedSuperclass
 public abstract class DataObject {
-	public abstract interface Save {
+    public abstract interface Save {
 
-	}
+    }
 
-	public abstract interface Update {
+    public abstract interface Update {
 
-	}
+    }
 
-	public static final String ID_PROPERTY_NAME = "id";
-	public static final String CREATE_DATE_PROPERTY_NAME = "createDate";
-	public static final String MODIFY_DATE_PROPERTY_NAME = "modifyDate";
+    public static final String ID_PROPERTY_NAME = "id";
+    public static final String CREATE_DATE_PROPERTY_NAME = "createDate";
+    public static final String MODIFY_DATE_PROPERTY_NAME = "modifyDate";
 
-	@Id
-	@GeneratedValue
-	private long id = 0;
-	private String uuid;
-	private Date dateC;
-	private Date dateM;
+    @Id
+    @GeneratedValue
+    private long id = 0;
+    private String uuid;
+    private Date dateC;
+    private Date dateM;
 
-	@JsonProperty
-	@DocumentId
+    @JsonProperty
+    @DocumentId
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	@JsonProperty
-	@DateBridge(resolution = Resolution.SECOND)
-	@Column(nullable = false, updatable = false)
-	public Date getCreateDate() {
-		return this.dateC;
-	}
+    /**
+     * @return
+     */
+    @JsonProperty
+    @DateBridge(resolution = Resolution.SECOND)
+    @Column(nullable = false, updatable = false)
+    public Date getCreateDate() {
+        return this.dateC;
+    }
 
-	/**
-	 *
-	 * @param createDate
-	 */
-	public void setCreateDate(Date createDate) {
-		this.dateC = createDate;
-	}
+    /**
+     * @param createDate
+     */
+    public void setCreateDate(Date createDate) {
+        this.dateC = createDate;
+    }
 
-	public String getUuid() {
-		return uuid;
-	}
+    public String getUuid() {
+        return uuid;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	@JsonProperty
-	@DateBridge(resolution = Resolution.SECOND)
-	@Column(nullable = false)
-	public Date getDateC() {
-		return dateC;
-	}
+    /**
+     * @return
+     */
+    @JsonProperty
+    @DateBridge(resolution = Resolution.SECOND)
+    @Column(nullable = false)
+    public Date getDateC() {
+        return dateC;
+    }
 
-	public void setDateC(Date dateC) {
-		this.dateC = dateC;
-	}
+    public void setDateC(Date dateC) {
+        this.dateC = dateC;
+    }
 
-	/**
-	 *
-	 * @return
-	 */
-	@JsonProperty
-	@DateBridge(resolution = Resolution.SECOND)
-	@Column(nullable = false)
-	public Date getDateM() {
-		return dateM;
-	}
+    /**
+     * @return
+     */
+    @JsonProperty
+    @DateBridge(resolution = Resolution.SECOND)
+    @Column(nullable = false)
+    public Date getDateM() {
+        return dateM;
+    }
 
-	public void setDateM(Date dateM) {
-		this.dateM = dateM;
-	}
+    public void setDateM(Date dateM) {
+        this.dateM = dateM;
+    }
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		DataObject that = (DataObject) o;
-		return id == that.id;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DataObject that = (DataObject) o;
+        return id == that.id;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
