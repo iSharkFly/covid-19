@@ -11,9 +11,9 @@ repositories {
 }
 
 dependencies {
-
     implementation project(":covid-19-common")
-// COMMONS
+
+    // COMMONS
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'org.apache.commons:commons-vfs2:2.0'
     implementation 'org.apache.commons:commons-csv:1.7'
