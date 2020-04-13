@@ -44,9 +44,10 @@ dependencies {
     implementation group: 'org.apache.solr', name: 'solr-solrj', version: '8.1.0'
     implementation group: 'org.jasypt', name: 'jasypt-hibernate4', version: '1.9.3'
 
-    // SPRING BATCH
-    implementation 'org.springframework.boot:spring-boot-starter-batch:2.2.6.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-amqp:2.2.6.RELEASE'
+    // SPRING BOOT AND BATCH
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
     // CLOUD
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.699'

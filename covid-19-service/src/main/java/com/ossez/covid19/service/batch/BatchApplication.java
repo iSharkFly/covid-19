@@ -15,7 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableBatchProcessing
-public class Application implements CommandLineRunner {
+public class BatchApplication implements CommandLineRunner {
 
     @Autowired
     JobLauncher jobLauncher;
@@ -30,7 +30,7 @@ public class Application implements CommandLineRunner {
      * @throws Exception
      */
     public static void main(String... args) throws Exception {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(BatchApplication.class, args);
 //        SpringApplication app = new SpringApplication(Application.class);
 //        app.setWebEnvironment(false);
 //        ApplicationContext ctx= app.run(args);
