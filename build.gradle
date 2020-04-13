@@ -9,25 +9,28 @@ plugins {
 }
 
 allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
     group = 'com.ossez.covid19'
     version = '0.1.1'
 
-    apply plugin: 'java'
-
-
     repositories {
-        mavenCentral()
+//        mavenCentral()
+        maven {
+            url "https://maven.ossez.com/repository/internal"
+        }
+        maven {
+            url "https://maven.ossez.com/repository/snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
+        mavenLocal()
     }
-
-    ext {
-        environmentProperty = project.hasProperty('environment') ? getProperty('environment') : 'hsql'
-        docResourcesVersion = '0.1.0'
-    }
-
-    apply from: rootProject.file( 'gradle/base-information.gradle' )
 
     dependencies {
-
         // COMMONS
         implementation 'org.apache.commons:commons-lang3:3.9'
         implementation 'org.apache.commons:commons-vfs2:2.0'
@@ -49,6 +52,37 @@ allprojects {
         implementation 'net.sf.jazzy:jazzy:0.5.2-rtext-1.4.1'
         implementation 'net.sf.opencsv:opencsv:2.3'
 
+        // TESTS
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
+
+    }
+
+}
+
+subprojects {
+
+    // REPO
+    repositories {
+//        mavenCentral()
+        maven {
+            url "https://maven.ossez.com/repository/internal"
+        }
+        maven {
+            url "https://maven.ossez.com/repository/snapshots"
+            mavenContent {
+                snapshotsOnly()
+            }
+        }
+        mavenLocal()
+    }
+
+    ext {
+        environmentProperty = project.hasProperty('environment') ? getProperty('environment') : 'hsql'
+        docResourcesVersion = '0.1.0'
+    }
+
+    dependencies {
         // CLOUD
         implementation 'com.amazonaws:aws-java-sdk-s3:1.11.699'
         implementation 'org.apache.jclouds:jclouds-all:1.9.2'
@@ -63,19 +97,15 @@ allprojects {
 project('covid-19-common') {
     description = 'covid-19-common'
 
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
-    apply plugin: 'idea'
     apply plugin: 'java-library'
-
 }
 
 project('covid-19-service') {
     description = 'covid-19-service'
 
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
-    apply plugin: 'idea'
+    dependencies {
+        implementation project(":covid-19-common")
+    }
 
 }
 
