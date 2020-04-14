@@ -1,8 +1,5 @@
 package com.ossez.covid19.service;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -21,12 +18,6 @@ import javax.servlet.ServletException;
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer{
 
-	@Autowired
-	JobLauncher jobLauncher;
-
-	@Autowired
-	Job cloudClean;
-
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);
@@ -35,7 +26,6 @@ public class Application extends SpringBootServletInitializer{
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		servletContext.addListener(new RequestContextListener());
-		super.onStartup(servletContext);
 	}
 
 	/**
