@@ -45,9 +45,9 @@ dependencies {
     implementation group: 'org.jasypt', name: 'jasypt-hibernate4', version: '1.9.3'
 
     // SPRING BOOT AND BATCH
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-batch'
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.2.6.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-batch:2.2.6.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp:2.2.6.RELEASE'
 
     // CLOUD
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.699'

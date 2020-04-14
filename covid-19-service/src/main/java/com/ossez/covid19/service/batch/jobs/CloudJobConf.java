@@ -1,10 +1,12 @@
 package com.ossez.covid19.service.batch.jobs;
 
-import com.ossez.covid19.service.batch.tasklet.AwsTasklet;
 import com.ossez.covid19.common.models.Listing;
-import com.ossez.covid19.service.batch.JobCompletionNotificationListener;
+import com.ossez.covid19.service.batch.jobs.listener.JobCompletionNotificationListener;
+import com.ossez.covid19.service.batch.tasklet.AwsTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -13,23 +15,30 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 
 @Configuration
+@ComponentScan
+@EnableBatchProcessing
 public class CloudJobConf {
-    @Autowired
-    public JobBuilderFactory jobBuilderFactory;
 
-    @Autowired
+    public JobBuilderFactory jobBuilderFactory;
     public StepBuilderFactory stepBuilderFactory;
 
+    @Autowired
+    public CloudJobConf(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory) {
+        this.jobBuilderFactory = jobBuilderFactory;
+        this.stepBuilderFactory = stepBuilderFactory;
+    }
+
     @Bean
-    public Job cloudClean(JobCompletionNotificationListener listener, Step stepAws, Step deleteFilesStep) {
+    public Job cloudClean(JobCompletionNotificationListener listener, Step deleteFilesStep) {
         return jobBuilderFactory.get("cloudClean")
                 .incrementer(new RunIdIncrementer())
                 .listener(listener)
-                .flow(stepAws).next(deleteFilesStep)
+                .flow(deleteFilesStep)
                 .end()
                 .build();
     }

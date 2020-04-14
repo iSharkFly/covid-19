@@ -1,4 +1,4 @@
-package com.ossez.covid19.service.batch;
+package com.ossez.covid19.service.batch.jobs.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

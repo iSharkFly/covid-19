@@ -7,7 +7,9 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class LineProcessor implements ItemProcessor<Listing, Listing>, StepExecutionListener {
     private final Logger logger = LoggerFactory.getLogger(LineProcessor.class);
 
