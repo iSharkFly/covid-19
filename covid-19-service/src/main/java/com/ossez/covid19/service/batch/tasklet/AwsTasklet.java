@@ -43,7 +43,7 @@ public class AwsTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         logger.info("Download Listing Photo from AWS Bucket: com.ossez.real.estate");
 
-        AWSCredentials awsCreds = new BasicAWSCredentials("AKIAIJDKPNI3PL7E6QXQ", "Jfaq2mGcogodLKJa7wae9dgd+M3bQ6g5XjkOt1ZV");
+        AWSCredentials awsCreds = new BasicAWSCredentials("****", "****");
 
         final AmazonS3 s3 =
                 AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(awsCreds)).withRegion(Regions.US_EAST_1).build();
