@@ -36,8 +36,7 @@ public class Covid19Tasklet implements Tasklet {
         RestTemplate restTemplate = new RestTemplate();
 
         // GET CURRENT
-        ResponseEntity<Covid19Current[]> responseEntity = restTemplate.exchange("https://covidtracking.com/api/v1/states/current" +
-                        ".json",
+        ResponseEntity<Covid19Current[]> responseEntity = restTemplate.exchange("https://covidtracking.com/api/v1/states/current.json",
                 HttpMethod.GET,
                 null,
                 Covid19Current[].class);
