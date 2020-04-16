@@ -7,7 +7,17 @@ plugins {
 apply plugin: 'java'
 
 repositories {
-    mavenCentral()
+//    mavenCentral()
+    maven {
+        url "https://maven.ossez.com/repository/internal"
+    }
+    maven {
+        url "https://maven.ossez.com/repository/snapshots"
+        mavenContent {
+            snapshotsOnly()
+        }
+    }
+    mavenLocal()
 }
 
 dependencies {
