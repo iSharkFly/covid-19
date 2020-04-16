@@ -3,6 +3,8 @@ package com.ossez.covid19.service.batch.tasklet;
 import com.ossez.covid19.common.Factory;
 import com.ossez.covid19.common.dao.factories.Covid19Factory;
 import com.ossez.covid19.common.models.Covid19Current;
+import com.ossez.covid19.common.models.Covid19States;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -31,9 +33,10 @@ public class Covid19Tasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         logger.info(">>>>>>>>");
-
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Covid19Current[]> responseEntity =  restTemplate.exchange("https://covidtracking.com/api/v1/states/current" +
+
+        // GET CURRENT
+        ResponseEntity<Covid19Current[]> responseEntity = restTemplate.exchange("https://covidtracking.com/api/v1/states/current" +
                         ".json",
                 HttpMethod.GET,
                 null,
@@ -43,14 +46,36 @@ public class Covid19Tasklet implements Tasklet {
         logger.info("Current Data Size {}", covid19Currents.length);
 //        Covid19Factory.get(1L);
 
-        logger.info(">>>>>>>> {}",covid19Currents[1].getPositive());
-        for (Covid19Current covid19Current: covid19Currents
-             ) {
+        logger.info(">>>>>>>> {}", covid19Currents[1].getPositive());
+        for (Covid19Current covid19Current : covid19Currents) {
+            Covid19Current covid19CurrentDB = Covid19Factory.getByState(covid19Current);
+
+            // NULL CHECK TO GET ID SET
+            if(ObjectUtils.isNotEmpty(covid19CurrentDB)) {
+                covid19Current.setId(covid19CurrentDB.getId());
+            }
+
             Covid19Factory.save(covid19Current);
         }
-//        Covid19Current covid19Current = covid19Currents[1];
-////        covid19Current.setId(2l);
-//        Covid19Factory.save(covid19Current);
+
+
+        //GET STATES
+        restTemplate = new RestTemplate();
+        Covid19States[] Covid19StatesList = restTemplate.exchange("https://covidtracking.com/api/v1/states/daily.json",
+                HttpMethod.GET,
+                null,
+                Covid19States[].class).getBody();
+
+        for (Covid19States covid19States : Covid19StatesList) {
+//            Covid19Current covid19CurrentDB = Covid19Factory.getByState(covid19States);
+
+            // NULL CHECK TO GET ID SET
+//            if(ObjectUtils.isNotEmpty(covid19CurrentDB)) {
+//                covid19Current.setId(covid19CurrentDB.getId());
+//            }
+
+            Covid19Factory.save(covid19States);
+        }
 
         return RepeatStatus.FINISHED;
     }
