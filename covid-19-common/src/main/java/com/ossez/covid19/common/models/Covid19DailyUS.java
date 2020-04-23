@@ -8,12 +8,12 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(catalog = "covid19", name = "Covid19States")
+@Table(catalog = "covid19", name = "Covid19DailyUS")
 public class Covid19DailyUS extends DataObject implements java.io.Serializable {
     private static final long serialVersionUID = -612061041423673622L;
 
     private String date;
-    private String state;
+    private String states;
 
     private String positive;
     private String negative;
@@ -69,12 +69,12 @@ public class Covid19DailyUS extends DataObject implements java.io.Serializable {
         this.date = date;
     }
 
-    public String getState() {
-        return state;
+    public String getStates() {
+        return states;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStates(String states) {
+        this.states = states;
     }
 
     public String getPositive() {
@@ -259,7 +259,7 @@ public class Covid19DailyUS extends DataObject implements java.io.Serializable {
         return new HashCodeBuilder(17, 37)
                 .appendSuper(super.hashCode())
                 .append(date)
-                .append(state)
+                .append(states)
                 .append(positive)
                 .append(negative)
                 .append(pending)
