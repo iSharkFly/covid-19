@@ -29,7 +29,7 @@ public abstract class DataObject {
     public static final String MODIFY_DATE_PROPERTY_NAME = "modifyDate";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id = 0;
     private String uuid;
     private Date dateC;
@@ -37,13 +37,21 @@ public abstract class DataObject {
 
     @JsonProperty
     @DocumentId
-
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     /**
@@ -63,9 +71,6 @@ public abstract class DataObject {
         this.dateC = createDate;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
 
     /**
      * @return
@@ -95,9 +100,6 @@ public abstract class DataObject {
         this.dateM = dateM;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     @Override
     public boolean equals(Object o) {
