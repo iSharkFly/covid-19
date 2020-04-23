@@ -1,8 +1,10 @@
 package com.ossez.covid19.service.batch.tasklet;
 
+import com.google.inject.internal.cglib.core.$ProcessArrayCallback;
 import com.ossez.covid19.common.Factory;
 import com.ossez.covid19.common.dao.factories.Covid19Factory;
 import com.ossez.covid19.common.models.Covid19Current;
+import com.ossez.covid19.common.models.Covid19DailyUS;
 import com.ossez.covid19.common.models.Covid19States;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
@@ -15,6 +17,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.UUID;
 
 /**
  *
@@ -50,7 +54,7 @@ public class Covid19Tasklet implements Tasklet {
             Covid19Current covid19CurrentDB = Covid19Factory.getByState(covid19Current);
 
             // NULL CHECK TO GET ID SET
-            if(ObjectUtils.isNotEmpty(covid19CurrentDB)) {
+            if (ObjectUtils.isNotEmpty(covid19CurrentDB)) {
                 covid19Current.setId(covid19CurrentDB.getId());
             }
 
@@ -66,17 +70,41 @@ public class Covid19Tasklet implements Tasklet {
                 Covid19States[].class).getBody();
 
         for (Covid19States covid19States : Covid19StatesList) {
-//            Covid19Current covid19CurrentDB = Covid19Factory.getByState(covid19States);
+            Covid19States covid19StatesDB = Covid19Factory.getCovid19StatesByHash(covid19States.getHash());
 
             // NULL CHECK TO GET ID SET
-//            if(ObjectUtils.isNotEmpty(covid19CurrentDB)) {
-//                covid19Current.setId(covid19CurrentDB.getId());
-//            }
+            if (ObjectUtils.isEmpty(covid19StatesDB)) {
+                covid19States.setUuid(UUID.randomUUID().toString());
+                Covid19Factory.save(covid19States);
+            }
 
-            Covid19Factory.save(covid19States);
+
         }
+        processDailyUS("https://covidtracking.com/api/v1/us/daily.json");
 
         return RepeatStatus.FINISHED;
     }
 
+    /**
+     * @param apiURL
+     */
+    private void processDailyUS(String apiURL) {
+        //GET STATES
+        RestTemplate restTemplate = new RestTemplate();
+        Covid19DailyUS[] Covid19DailyUSList = restTemplate.exchange(apiURL, HttpMethod.GET, null, Covid19DailyUS[].class).getBody();
+
+        for (Covid19DailyUS covid19DailyUS : Covid19DailyUSList) {
+            Covid19DailyUS covid19DailyUSDB = Covid19Factory.getCovid19DailyUSByHash(covid19DailyUS.getHash());
+
+            // NULL CHECK TO GET ID SET
+            if (ObjectUtils.isEmpty(covid19DailyUSDB)) {
+                covid19DailyUS.setUuid(UUID.randomUUID().toString());
+                Covid19Factory.save(covid19DailyUS);
+            }
+
+
+        }
+
+
+    }
 }
