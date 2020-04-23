@@ -32,6 +32,8 @@
 		<property name="hibernate.search.default.indexBase">/var/lucene/indexes/5</property>
 
 		<mapping class="com.ossez.covid19.common.models.Covid19Current"/>
+		<mapping class="com.ossez.covid19.common.models.Covid19States"/>
+		<mapping class="com.ossez.covid19.common.models.Covid19DailyUS"/>
 		<mapping resource="hbm/api/RewsUser.hbm.xml" />
 		<mapping resource="hbm/AdvisorManualAdditionalData.hbm.xml" />
 		<mapping resource="hbm/Agent.hbm.xml" />
